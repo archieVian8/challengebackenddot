@@ -2,6 +2,8 @@ import {
     Controller,
     Get,
     Post,
+    Put,
+    Delete,
     Body,
     Param,
     Query,
@@ -95,5 +97,38 @@ import {
     async viewAcademicEventsById(@Param('id') id: number) {
       return await this.academiceventsService.viewAcademicEventsById(Number(id)); 
     }
-  }
+
+    @Put('update/:idAcademicEvents')
+    async updateAcademicEvent(
+      @Param('idAcademicEvents') idAcademicEvents: number,
+      @Query('idOrganizer') idOrganizer: number,
+      @Body() body: any,
+    ) {
+      try {
+        return await this.academiceventsService.updateAcademicEvent(
+          Number(idAcademicEvents),
+          Number(idOrganizer),
+          body,
+        );
+      } catch (error) {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+    @Delete('delete/:idAcademicEvents')
+    async deleteAcademicEvent(
+      @Param('idAcademicEvents') idAcademicEvents: number,
+      @Query('idOrganizer') idOrganizer: number,  
+    ) {
+      try {
+        return await this.academiceventsService.deleteAcademicEvent(
+          Number(idAcademicEvents),
+          Number(idOrganizer),
+        );
+      } catch (error) {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
+    }
+    
+}
   

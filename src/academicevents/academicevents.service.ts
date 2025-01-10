@@ -162,4 +162,65 @@ export class AcademiceventsService {
       where: { idAcademicEvents },
     });
   }
+
+  async updateAcademicEvent(
+    idAcademicEvents: number,
+    idOrganizer: number,
+    data: any,
+  ) {
+    const academicEvent = await this.prisma.academicEvents.findUnique({
+      where: { idAcademicEvents },
+    });
+  
+    if (!academicEvent) {
+      throw new Error('Academic Event tidak ditemukan.');
+    }
+  
+    if (academicEvent.idOrganizer !== idOrganizer) {
+      throw new Error(
+        'Anda tidak memiliki izin untuk melakukan update Academic Event ini.',
+      );
+    }
+  
+    const updateData = {
+      eventsName: data.eventsName,
+      eventsLoc: data.eventsLoc,
+      eventsJenjang: data.eventsJenjang,
+      eventsHeld: data.eventsHeld,
+      eventCategory: data.eventCategory,
+      eventsDate: data.eventsDate,
+      registrationDate: data.registrationDate,
+      eventsTheme: data.eventsTheme,
+      registrationFee: data.registrationFee,
+      capacityTotal: data.capacityTotal,
+      deskripsiEvent: data.deskripsiEvent,
+    };
+  
+    return await this.prisma.academicEvents.update({
+      where: { idAcademicEvents },
+      data: updateData,
+    });
+  }
+
+  async deleteAcademicEvent(idAcademicEvents: number, idOrganizer: number): Promise<{ message: string }> {
+    const academicEvent = await this.prisma.academicEvents.findUnique({
+      where: { idAcademicEvents },
+      include: { eventOrganizer: true },
+    });
+
+    if (!academicEvent) {
+      throw new Error('Academic Event tidak ditemukan.');
+    }
+
+    if (academicEvent.idOrganizer !== idOrganizer) {
+      throw new Error('Anda tidak memiliki izin untuk melakukan delete Academic Events.');
+    }
+
+    await this.prisma.academicEvents.delete({
+      where: { idAcademicEvents },
+    });
+
+    return { message: 'Berhasil melakukan delete Academic Events.' };
+  }
 }
+
