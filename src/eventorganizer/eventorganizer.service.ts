@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class EventOrganizerService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
 
   async signUp(data: any) {
     const emailExists = await this.prisma.eventOrganizer.findUnique({
@@ -14,32 +19,77 @@ export class EventOrganizerService {
       throw new Error('Email sudah terdaftar');
     }
 
-    return this.prisma.eventOrganizer.create({
-      data: {
-        email: data.email,
-        password: data.password,
-        organizerName: data.organizerName,
-        organizerInstitution: data.organizerInstitution,
-        organizerAddress: data.organizerAddress,
-        phoneNumber: data.phoneNumber,
-      },
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    data.password = hashedPassword;
+
+    // return this.prisma.eventOrganizer.create({
+    //   data: {
+    //     email: data.email,
+    //     password: data.password,
+    //     organizerName: data.organizerName,
+    //     organizerInstitution: data.organizerInstitution,
+    //     organizerAddress: data.organizerAddress,
+    //     phoneNumber: data.phoneNumber,
+    //   },
+    // });
+    await this.prisma.eventOrganizer.create({
+      data,
     });
+
+    return {
+        message:'eventOrganizer succesfully created',
+    };
+
   }
 
-  async signIn(data: any) {
+  async signIn(email: string, password: string) {
     const organizer = await this.prisma.eventOrganizer.findUnique({
-      where: { email: data.email },
+      where: { email },
     });
 
-    if (organizer && organizer.password === data.password) {
-      return {
-        status: 'Success',
-        idOrganizer: organizer.idOrganizer,
-        organizerName: organizer.organizerName,
-      };
-    }
+    // if (organizer && organizer.password === data.password) {
+    //   return {
+    //     status: 'Success',
+    //     idOrganizer: organizer.idOrganizer,
+    //     organizerName: organizer.organizerName,
+    //   };
+    // }
 
-    throw new Error('Invalid email or password');
+    if (!organizer || !(await bcrypt.compare(password, organizer.password))) {
+      throw new Error('Invalid email or password');
+    }
+    // throw new Error('Invalid email or password');
+    const payload = { idOrganizer: organizer.idOrganizer, email: organizer.email };
+    const accessToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET, 
+      expiresIn: '15m',
+    });
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET, 
+      expiresIn: '7d',
+    });
+
+    return {
+      accessToken,
+      refreshToken,
+      idOrganizer: organizer.idOrganizer,
+      organizerName: organizer.organizerName,
+      organizerInstitution: organizer.organizerInstitution,
+    };
+  }
+
+  async refreshAccessToken(refreshToken: string) {
+    try {
+      const decoded = this.jwtService.verify(refreshToken);  
+      const payload = { idOrganizer: decoded.idOrganizer, email: decoded.email };
+      const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' });  
+
+      return {
+        accessToken,  
+      };
+    } catch (error) {
+      throw new Error('Invalid or expired refresh token');
+    }
   }
 
   async getAllEventOrganizers() {

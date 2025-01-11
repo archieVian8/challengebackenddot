@@ -1,5 +1,6 @@
-import { Controller, Post, Body, Get, Query, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { EventOrganizerService } from './eventorganizer.service';
+import { JwtAuthGuard } from '../../auth/jwt.auth.guard';
 
 @Controller('eventorganizer')
 export class EventOrganizerController {
@@ -16,16 +17,25 @@ export class EventOrganizerController {
   }
 
   @Post('sign-in')
-  async signIn(@Body() data: any) {
+  async signIn(@Body() body: { email: string; password: string }) {
     try {
-      const response = await this.eventOrganizerService.signIn(data);
-      return response;
+      return await this.eventOrganizerService.signIn(body.email, body.password)
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  @Post('refresh-token')
+  async refreshToken(@Body() body: { refreshToken: string }) {
+    try {
+      return await this.eventOrganizerService.refreshAccessToken(body.refreshToken);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
 
   @Get('all-eventorganizers')
+  @UseGuards(JwtAuthGuard)
   async getAllEventOrganizers() {
     try {
       return await this.eventOrganizerService.getAllEventOrganizers();
@@ -35,6 +45,7 @@ export class EventOrganizerController {
   }
 
   @Get('profile-id')
+  @UseGuards(JwtAuthGuard)
   async viewProfileEventOrganizerById(@Query('userId') userId: string) {
     try {
       const organizer = await this.eventOrganizerService.viewProfileEventOrganizerById(Number(userId));
