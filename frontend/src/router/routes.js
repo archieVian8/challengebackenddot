@@ -33,7 +33,7 @@ const routes = [
     ],
   },
 
-  
+
   {
     path: "/event",
     component: () => import("src/layouts/HeaderFooter.vue"),
@@ -74,7 +74,6 @@ const routes = [
       auth: true
     },
     children: [
-      { path: "competition", name: "OrganizerCompetition", component: () => import("pages/admin/Competition.vue")},
       { path: "event", name: "OrganizerEvents", component: () => import("pages/admin/Events.vue")},
     ],
   },
