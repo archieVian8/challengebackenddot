@@ -6,7 +6,7 @@
             <p class="jakarta-b text-3xl">TEMUKAN PELUANG TERBAIK UNTUK MENGEMBANGKAN KEMAMPUANMU DENGAN MUDAH DI
               <span>LEADS</span>
             </p>
-            <p class="text-lg q-my-lg">Temukan Lomba, Event Akademik yang Tepat dengan Mudah dan Menyenangkan!</p>
+            <p class="text-lg q-my-lg">Temukan Event Akademik yang Tepat dengan Mudah dan Menyenangkan!</p>
             <q-btn @click="this.$router.push('/home')" class="q-px-lg q-py-sm" unelevated color="primary" label="Mulai Sekarang" no-caps />
           </div>
         </div>
@@ -21,7 +21,7 @@
                 </li>
                 <li class="q-mt-sm">
                   LEADS bertujuan untuk mempermudah para pelajar, mahasiswa, dan masyarakat umum dalam mencari informasi
-                  yang menunjang dalam karir akademiknya seperti lomba, dan event akademik
+                  yang menunjang dalam karir akademiknya seperti event akademik
                 </li>
               </ol>
             </div>
@@ -35,7 +35,7 @@
               <div class="row justify-between items-center q-mt-xl q-pt-lg">
                 <div class="feature-item">
                   <q-icon name="img:/icons/feature-1.png" size="64px" />
-                  <p class="jakarta-sb text-lg">Mencari dan Mengikuti Lomba, dan Event Akademik</p>
+                  <p class="jakarta-sb text-lg">Mencari dan Mengikuti Event Akademik</p>
                   <p class="jakarta-sb text-grey">
                     Tenemukanlah kegiatan yang sesuai dengan kategori, jenjang, tingkat, waktu
                     dan lokasi penyelenggaraancdengan cepat dan mudah.
@@ -56,13 +56,6 @@
                   <p class="jakarta-sb text-lg">Reminder</p>
                   <p class="jakarta-sb text-grey">
                     Membantu kalian agar tidak melewatkan kesempatan untuk mengikuti kegiatan yang diinginkan.
-                  </p>
-                </div>
-                <div class="feature-item q-ml-lg">
-                  <q-icon name="img:/icons/feature-4.png" size="64px" />
-                  <p class="jakarta-sb text-lg">Portofolio</p>
-                  <p class="jakarta-sb text-grey">
-                    Setiap kegiatan yang diikuti pada akan terekam dan dapat digunakan sebagai Portofolio
                   </p>
                 </div>
               </div>

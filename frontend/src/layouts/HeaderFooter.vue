@@ -5,18 +5,9 @@
           <img @click="this.$router.push('/')" src="/images/logo-black.png" alt="Logo" class="cursor-pointer">
           <div class="row items-center gap-md">
             <a href="/home" class="jakarta-sb q-mr-xl">Home</a>
-            <a href="/achievement" class="jakarta-sb">Achievement</a>
           </div>
           <!-- Logged In -->
           <div v-if="isLogin" class="row items-center" style="cursor: pointer;">
-            <div class="row items-center">
-              <q-btn round unelevated @click="navigatAchievement()">
-                <q-avatar size="42px">
-                  <img src="/icons/avatar.png" size="42px">
-                </q-avatar>
-              </q-btn>
-              <p class="jakarta-b q-mx-lg">{{ name }}</p>
-            </div>
             <q-btn @click="logout()" flat round color="grey-10" icon="logout" />
           </div>
           <!-- Not Logged In -->
@@ -68,9 +59,7 @@
         this.$router.push('/register-as');
       },
   
-      navigatAchievement() {
-        this.$router.push('/achievement');
-      },
+      
   
       async getuserById() {
         try {
