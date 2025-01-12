@@ -29,5 +29,96 @@
         <div class="col-5 auth-image"></div>
       </q-page>
     </q-layout>
-</template>
+  </template>
+  
+  <script>
+  import { ref } from 'vue';
+  import { api } from 'src/boot/axios';
+  import { Notify } from 'quasar';
+  import { setIsLoggedIn, setUserId, setAccessToken } from 'src/utils/localStorage';  
 
+  export default {
+    name: 'UserLogin',
+
+    data() {
+      return {
+        email: ref(null),
+        password: ref(null),
+        isPwd: ref(true),
+      };
+    },
+
+    methods: {
+
+      resetDefault() {
+        this.email = ref(null);
+        this.password = ref(null);
+        this.isPwd = ref(true);
+      },
+
+      async submit() {
+        try {
+          const response = await api.post('http://192.168.1.30:3000/user/sign-in', {
+            email: this.email,
+            password: this.password
+          });
+
+          if (response.data.accessToken) {
+            setAccessToken(response.data.accessToken); 
+            setUserId(response.data.idUser);
+            setIsLoggedIn(true);
+
+            Notify.create({
+              color: 'green',
+              message: 'Berhasil login',
+              position: 'top',
+              timeout: 2500
+            });
+            
+            this.$router.push('/home');
+          } else {
+            this.resetDefault();
+            Notify.create({
+              color: 'red',
+              message: 'Gagal login, periksa email dan password.',
+              position: 'top',
+              timeout: 2500
+            });
+          }
+        } catch (error) {
+          console.log(error);
+          this.resetDefault();
+          Notify.create({
+            color: 'red',
+            message: error.response?.data?.message || 'Terjadi kesalahan',
+            position: 'top',
+            timeout: 2500
+          });
+        }
+      }
+    }
+  };
+</script>
+  
+<style scoped>
+  .auth-image {
+    height: 100vh;
+    background-image: url("/images/user-auth.jpg");
+    background-repeat: round;
+    object-fit: cover;
+  }
+  
+  .form-container {
+    margin: auto;
+  }
+  
+  .q-input {
+    width: 360px;
+  }
+  
+  .q-btn {
+    width: 100%;
+    height: 42px;
+  }
+</style>
+  

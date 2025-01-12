@@ -33,7 +33,7 @@
             <q-icon name="img:/icons/linkedin.png" size="24px" />
           </div>
         </div>
-        <p class="jakarta-b text-center text-white q-mt-lg">© 2023 LEADS. All Rights Reserved.</p>
+        <p class="jakarta-b text-center text-white q-mt-lg">© 2025 LEADS. All Rights Reserved.</p>
       </q-footer>
     </q-layout>
   </template>

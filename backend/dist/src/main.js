@@ -9,7 +9,8 @@ async function bootstrap() {
     app.enableCors({
         origin: 'http://localhost:9000',
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        allowedHeaders: 'Content-Type, Accept',
+        allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
+        credentials: true,
     });
     app.listen(3000, () => {
         console.log(`Server running on port ${configService.get('PORT') || 3000}`);
