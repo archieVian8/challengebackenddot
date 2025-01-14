@@ -46,9 +46,9 @@ export class EventOrganizerController {
 
   @Get('profile-id')
   @UseGuards(JwtAuthGuard)
-  async viewProfileEventOrganizerById(@Query('userId') userId: string) {
+  async viewProfileEventOrganizerById(@Query('organizerId') organizerId: string) {
     try {
-      const organizer = await this.eventOrganizerService.viewProfileEventOrganizerById(Number(userId));
+      const organizer = await this.eventOrganizerService.viewProfileEventOrganizerById(Number(organizerId));
       return organizer;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);

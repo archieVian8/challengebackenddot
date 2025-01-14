@@ -88,6 +88,7 @@ const routes = [
     children: [
       { path: "create", name: "AddEvent", component: () => import("pages/admin/AddEvent.vue")},
       { path: "applicants", name: "EventApplicants", component: () => import("pages/admin/EventApplicants.vue")},
+      { path: "update", name: "UpdateEvent", component: () => import("pages/admin/UpdateEvent.vue")},
     ],
   },
 

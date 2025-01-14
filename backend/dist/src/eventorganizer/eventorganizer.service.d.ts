@@ -8,31 +8,31 @@ export declare class EventOrganizerService {
         message: string;
     }>;
     signIn(email: string, password: string): Promise<{
-        accessToken: string;
+        OrganizerAccessToken: string;
         refreshToken: string;
         idOrganizer: number;
         organizerName: string;
         organizerInstitution: string;
     }>;
     refreshAccessToken(refreshToken: string): Promise<{
-        accessToken: string;
+        OrganizerAccessToken: string;
     }>;
     getAllEventOrganizers(): Promise<{
+        idOrganizer: number;
         email: string;
         password: string;
-        phoneNumber: string;
-        idOrganizer: number;
         organizerName: string;
         organizerInstitution: string;
         organizerAddress: string;
+        phoneNumber: string;
     }[]>;
-    viewProfileEventOrganizerById(userId: number): Promise<{
+    viewProfileEventOrganizerById(organizerId: number): Promise<{
+        idOrganizer: number;
         email: string;
         password: string;
-        phoneNumber: string;
-        idOrganizer: number;
         organizerName: string;
         organizerInstitution: string;
         organizerAddress: string;
+        phoneNumber: string;
     }>;
 }

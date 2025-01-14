@@ -3,9 +3,8 @@ export declare class AcademiceventsService {
     private prisma;
     constructor(prisma: PrismaService);
     createAcademicEvent(data: any): Promise<{
-        idOrganizer: number;
-        capacityTotal: number | null;
         idAcademicEvents: number;
+        idOrganizer: number;
         eventsName: string;
         eventsLoc: string;
         eventsJenjang: import(".prisma/client").$Enums.EventJenjang;
@@ -15,14 +14,14 @@ export declare class AcademiceventsService {
         registrationDate: Date;
         eventsTheme: string;
         registrationFee: number;
+        capacityTotal: number | null;
         capacityTersisa: number | null;
         capacityStatus: import(".prisma/client").$Enums.CapacityStatus;
         deskripsiEvent: string;
     }>;
     viewAllAcademicEvents(): Promise<{
-        idOrganizer: number;
-        capacityTotal: number | null;
         idAcademicEvents: number;
+        idOrganizer: number;
         eventsName: string;
         eventsLoc: string;
         eventsJenjang: import(".prisma/client").$Enums.EventJenjang;
@@ -32,14 +31,14 @@ export declare class AcademiceventsService {
         registrationDate: Date;
         eventsTheme: string;
         registrationFee: number;
+        capacityTotal: number | null;
         capacityTersisa: number | null;
         capacityStatus: import(".prisma/client").$Enums.CapacityStatus;
         deskripsiEvent: string;
     }[]>;
     viewAcademicEventsByJenjang(eventsJenjang: string): Promise<{
-        idOrganizer: number;
-        capacityTotal: number | null;
         idAcademicEvents: number;
+        idOrganizer: number;
         eventsName: string;
         eventsLoc: string;
         eventsJenjang: import(".prisma/client").$Enums.EventJenjang;
@@ -49,6 +48,7 @@ export declare class AcademiceventsService {
         registrationDate: Date;
         eventsTheme: string;
         registrationFee: number;
+        capacityTotal: number | null;
         capacityTersisa: number | null;
         capacityStatus: import(".prisma/client").$Enums.CapacityStatus;
         deskripsiEvent: string;
@@ -56,9 +56,8 @@ export declare class AcademiceventsService {
         message: string;
     }>;
     viewAcademicEventsByHeld(eventsHeld: string): Promise<{
-        idOrganizer: number;
-        capacityTotal: number | null;
         idAcademicEvents: number;
+        idOrganizer: number;
         eventsName: string;
         eventsLoc: string;
         eventsJenjang: import(".prisma/client").$Enums.EventJenjang;
@@ -68,6 +67,7 @@ export declare class AcademiceventsService {
         registrationDate: Date;
         eventsTheme: string;
         registrationFee: number;
+        capacityTotal: number | null;
         capacityTersisa: number | null;
         capacityStatus: import(".prisma/client").$Enums.CapacityStatus;
         deskripsiEvent: string;
@@ -75,9 +75,8 @@ export declare class AcademiceventsService {
         message: string;
     }>;
     viewAcademicEventsByJenjangHeld(eventsJenjang: string, eventsHeld: string): Promise<{
-        idOrganizer: number;
-        capacityTotal: number | null;
         idAcademicEvents: number;
+        idOrganizer: number;
         eventsName: string;
         eventsLoc: string;
         eventsJenjang: import(".prisma/client").$Enums.EventJenjang;
@@ -87,6 +86,7 @@ export declare class AcademiceventsService {
         registrationDate: Date;
         eventsTheme: string;
         registrationFee: number;
+        capacityTotal: number | null;
         capacityTersisa: number | null;
         capacityStatus: import(".prisma/client").$Enums.CapacityStatus;
         deskripsiEvent: string;
@@ -109,9 +109,8 @@ export declare class AcademiceventsService {
         message: string;
     }>;
     viewAcademicEventsById(idAcademicEvents: number): Promise<{
-        idOrganizer: number;
-        capacityTotal: number | null;
         idAcademicEvents: number;
+        idOrganizer: number;
         eventsName: string;
         eventsLoc: string;
         eventsJenjang: import(".prisma/client").$Enums.EventJenjang;
@@ -121,14 +120,14 @@ export declare class AcademiceventsService {
         registrationDate: Date;
         eventsTheme: string;
         registrationFee: number;
+        capacityTotal: number | null;
         capacityTersisa: number | null;
         capacityStatus: import(".prisma/client").$Enums.CapacityStatus;
         deskripsiEvent: string;
     }>;
     updateAcademicEvent(idAcademicEvents: number, idOrganizer: number, data: any): Promise<{
-        idOrganizer: number;
-        capacityTotal: number | null;
         idAcademicEvents: number;
+        idOrganizer: number;
         eventsName: string;
         eventsLoc: string;
         eventsJenjang: import(".prisma/client").$Enums.EventJenjang;
@@ -138,11 +137,31 @@ export declare class AcademiceventsService {
         registrationDate: Date;
         eventsTheme: string;
         registrationFee: number;
+        capacityTotal: number | null;
         capacityTersisa: number | null;
         capacityStatus: import(".prisma/client").$Enums.CapacityStatus;
         deskripsiEvent: string;
     }>;
     deleteAcademicEvent(idAcademicEvents: number, idOrganizer: number): Promise<{
+        message: string;
+    }>;
+    viewAcademicEventsByOrganizerId(idOrganizer: number): Promise<{
+        idAcademicEvents: number;
+        idOrganizer: number;
+        eventsName: string;
+        eventsLoc: string;
+        eventsJenjang: import(".prisma/client").$Enums.EventJenjang;
+        eventsHeld: import(".prisma/client").$Enums.EventHeld;
+        eventCategory: string;
+        eventsDate: Date;
+        registrationDate: Date;
+        eventsTheme: string;
+        registrationFee: number;
+        capacityTotal: number | null;
+        capacityTersisa: number | null;
+        capacityStatus: import(".prisma/client").$Enums.CapacityStatus;
+        deskripsiEvent: string;
+    }[] | {
         message: string;
     }>;
 }

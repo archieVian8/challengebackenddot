@@ -130,5 +130,10 @@ import {
       }
     }
     
+    @Get('by-organizer/:idOrganizer')
+    async viewAcademicEventsByOrganizerId(@Param('idOrganizer') idOrganizer: number) {
+      return await this.academiceventsService.viewAcademicEventsByOrganizerId(Number(idOrganizer));
+    }
+    
 }
   

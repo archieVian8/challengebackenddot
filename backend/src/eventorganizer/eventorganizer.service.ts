@@ -22,16 +22,6 @@ export class EventOrganizerService {
     const hashedPassword = await bcrypt.hash(data.password, 10);
     data.password = hashedPassword;
 
-    // return this.prisma.eventOrganizer.create({
-    //   data: {
-    //     email: data.email,
-    //     password: data.password,
-    //     organizerName: data.organizerName,
-    //     organizerInstitution: data.organizerInstitution,
-    //     organizerAddress: data.organizerAddress,
-    //     phoneNumber: data.phoneNumber,
-    //   },
-    // });
     await this.prisma.eventOrganizer.create({
       data,
     });
@@ -47,20 +37,13 @@ export class EventOrganizerService {
       where: { email },
     });
 
-    // if (organizer && organizer.password === data.password) {
-    //   return {
-    //     status: 'Success',
-    //     idOrganizer: organizer.idOrganizer,
-    //     organizerName: organizer.organizerName,
-    //   };
-    // }
-
     if (!organizer || !(await bcrypt.compare(password, organizer.password))) {
       throw new Error('Invalid email or password');
     }
-    // throw new Error('Invalid email or password');
+  
     const payload = { idOrganizer: organizer.idOrganizer, email: organizer.email };
-    const accessToken = this.jwtService.sign(payload, {
+    
+    const OrganizerAccessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET, 
       expiresIn: '15m',
     });
@@ -70,7 +53,7 @@ export class EventOrganizerService {
     });
 
     return {
-      accessToken,
+      OrganizerAccessToken,
       refreshToken,
       idOrganizer: organizer.idOrganizer,
       organizerName: organizer.organizerName,
@@ -81,11 +64,11 @@ export class EventOrganizerService {
   async refreshAccessToken(refreshToken: string) {
     try {
       const decoded = this.jwtService.verify(refreshToken);  
-      const payload = { idOrganizer: decoded.idOrganizer, email: decoded.email };
-      const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' });  
+      const payload = { idOrganizer: decoded.idOrganizer, email: decoded.email }; 
+      const OrganizerAccessToken = this.jwtService.sign(payload, { expiresIn: '15m' });  
 
       return {
-        accessToken,  
+        OrganizerAccessToken,  
       };
     } catch (error) {
       throw new Error('Invalid or expired refresh token');
@@ -96,10 +79,8 @@ export class EventOrganizerService {
     return this.prisma.eventOrganizer.findMany();
   }
 
-  async viewProfileEventOrganizerById(userId: number) {
-    const organizer = await this.prisma.eventOrganizer.findUnique({
-      where: { idOrganizer: userId },
-    });
+  async viewProfileEventOrganizerById(organizerId: number) {
+    const organizer = await this.prisma.eventOrganizer.findUnique({where: { idOrganizer: organizerId },});
 
     if (organizer) {
       return organizer;

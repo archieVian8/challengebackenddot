@@ -186,6 +186,15 @@ let AcademiceventsService = class AcademiceventsService {
         });
         return { message: 'Berhasil melakukan delete Academic Events.' };
     }
+    async viewAcademicEventsByOrganizerId(idOrganizer) {
+        const events = await this.prisma.academicEvents.findMany({
+            where: { idOrganizer },
+        });
+        if (events.length === 0) {
+            return { message: 'Tidak ada Academic Events yang ditemukan untuk organizer ini.' };
+        }
+        return events;
+    }
 };
 exports.AcademiceventsService = AcademiceventsService;
 exports.AcademiceventsService = AcademiceventsService = __decorate([

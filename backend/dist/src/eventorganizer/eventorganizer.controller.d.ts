@@ -9,7 +9,7 @@ export declare class EventOrganizerController {
         email: string;
         password: string;
     }): Promise<{
-        accessToken: string;
+        OrganizerAccessToken: string;
         refreshToken: string;
         idOrganizer: number;
         organizerName: string;
@@ -18,24 +18,24 @@ export declare class EventOrganizerController {
     refreshToken(body: {
         refreshToken: string;
     }): Promise<{
-        accessToken: string;
+        OrganizerAccessToken: string;
     }>;
     getAllEventOrganizers(): Promise<{
+        idOrganizer: number;
         email: string;
         password: string;
-        phoneNumber: string;
-        idOrganizer: number;
         organizerName: string;
         organizerInstitution: string;
         organizerAddress: string;
+        phoneNumber: string;
     }[]>;
-    viewProfileEventOrganizerById(userId: string): Promise<{
+    viewProfileEventOrganizerById(organizerId: string): Promise<{
+        idOrganizer: number;
         email: string;
         password: string;
-        phoneNumber: string;
-        idOrganizer: number;
         organizerName: string;
         organizerInstitution: string;
         organizerAddress: string;
+        phoneNumber: string;
     }>;
 }

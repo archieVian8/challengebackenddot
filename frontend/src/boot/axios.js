@@ -22,7 +22,7 @@ export default boot(({ app }) => {
 })
 
 api.interceptors.request.use(config => {
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem('accessToken','OrganizerAccessToken');
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }

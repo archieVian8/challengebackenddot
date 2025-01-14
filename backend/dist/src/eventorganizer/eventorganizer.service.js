@@ -43,7 +43,7 @@ let EventOrganizerService = class EventOrganizerService {
             throw new Error('Invalid email or password');
         }
         const payload = { idOrganizer: organizer.idOrganizer, email: organizer.email };
-        const accessToken = this.jwtService.sign(payload, {
+        const OrganizerAccessToken = this.jwtService.sign(payload, {
             secret: process.env.JWT_SECRET,
             expiresIn: '15m',
         });
@@ -52,7 +52,7 @@ let EventOrganizerService = class EventOrganizerService {
             expiresIn: '7d',
         });
         return {
-            accessToken,
+            OrganizerAccessToken,
             refreshToken,
             idOrganizer: organizer.idOrganizer,
             organizerName: organizer.organizerName,
@@ -63,9 +63,9 @@ let EventOrganizerService = class EventOrganizerService {
         try {
             const decoded = this.jwtService.verify(refreshToken);
             const payload = { idOrganizer: decoded.idOrganizer, email: decoded.email };
-            const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' });
+            const OrganizerAccessToken = this.jwtService.sign(payload, { expiresIn: '15m' });
             return {
-                accessToken,
+                OrganizerAccessToken,
             };
         }
         catch (error) {
@@ -75,10 +75,8 @@ let EventOrganizerService = class EventOrganizerService {
     async getAllEventOrganizers() {
         return this.prisma.eventOrganizer.findMany();
     }
-    async viewProfileEventOrganizerById(userId) {
-        const organizer = await this.prisma.eventOrganizer.findUnique({
-            where: { idOrganizer: userId },
-        });
+    async viewProfileEventOrganizerById(organizerId) {
+        const organizer = await this.prisma.eventOrganizer.findUnique({ where: { idOrganizer: organizerId }, });
         if (organizer) {
             return organizer;
         }

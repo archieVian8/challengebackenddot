@@ -91,6 +91,9 @@ let AcademiceventsController = class AcademiceventsController {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
         }
     }
+    async viewAcademicEventsByOrganizerId(idOrganizer) {
+        return await this.academiceventsService.viewAcademicEventsByOrganizerId(Number(idOrganizer));
+    }
 };
 exports.AcademiceventsController = AcademiceventsController;
 __decorate([
@@ -167,6 +170,13 @@ __decorate([
     __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], AcademiceventsController.prototype, "deleteAcademicEvent", null);
+__decorate([
+    (0, common_1.Get)('by-organizer/:idOrganizer'),
+    __param(0, (0, common_1.Param)('idOrganizer')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], AcademiceventsController.prototype, "viewAcademicEventsByOrganizerId", null);
 exports.AcademiceventsController = AcademiceventsController = __decorate([
     (0, common_1.Controller)('academicevents'),
     __metadata("design:paramtypes", [academicevents_service_1.AcademiceventsService])

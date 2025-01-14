@@ -53,9 +53,9 @@ let EventOrganizerController = class EventOrganizerController {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    async viewProfileEventOrganizerById(userId) {
+    async viewProfileEventOrganizerById(organizerId) {
         try {
-            const organizer = await this.eventOrganizerService.viewProfileEventOrganizerById(Number(userId));
+            const organizer = await this.eventOrganizerService.viewProfileEventOrganizerById(Number(organizerId));
             return organizer;
         }
         catch (error) {
@@ -95,7 +95,7 @@ __decorate([
 __decorate([
     (0, common_1.Get)('profile-id'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __param(0, (0, common_1.Query)('userId')),
+    __param(0, (0, common_1.Query)('organizerId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)

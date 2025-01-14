@@ -4,7 +4,6 @@
         <div class="main-container row items-center justify-between">
           <img src="/images/logo-black.png" alt="Logo">
           <div class="row items-center gap-md">
-            <a href="/organizer/competition" class="jakarta-sb q-mr-xl">Competition</a>
             <a href="/organizer/event" class="jakarta-sb">Events</a>
           </div>
           <div class="row items-center">
@@ -41,7 +40,7 @@
   <script>
   import { Notify } from 'quasar';
   import { api } from 'src/boot/axios';
-  import { getUserId } from 'src/utils/localStorage';
+  import { getIsLoggedInOrganizer, getOrganizerId, getAccessTokenOrganizer  } from 'src/utils/localStorage';
   import { ref } from 'vue';
   
   export default {
@@ -53,37 +52,44 @@
     },
   
     methods: {
-      async getuserById() {
+      async getOrganizerById() {
         try {
-          const id = getUserId();
-          const resp = await api.post('viewProfileEventOrganizerById', {
-            organizerId: id
-          });
-          if (resp.data.length > 0) {
-            this.name = resp.data[0].organizerName;
-          } else {
-            Notify.create({
-              color: 'red',
-              message: 'Gagal menagmbil data pengguna silahkan refresh halaman',
-              position: 'top',
-              timeout: 2500
-            });
+          const token = getAccessTokenOrganizer(); 
+          const organizerId = getOrganizerId();
+          const response = await api.get('eventorganizer/profile-id', {
+            headers: {
+            Authorization: `Bearer ${token}` 
+          },
+          params: {
+            organizerId: organizerId
           }
-          console.log(resp);
+          });
+
+            this.name = response.data.organizerName; 
         } catch (err) {
-          console.error(err)
+          console.error(err);
+          Notify.create({
+            color: 'red',
+            message: 'Gagal mengambil data pengguna. Silahkan refresh halaman.',
+            position: 'top',
+            timeout: 2500
+          });
         }
       },
   
       logout() {
-        localStorage.removeItem('UserId');
-        localStorage.removeItem('IsLoggedIn');
+        localStorage.removeItem('OrganizerId');
+        localStorage.removeItem('IsLoggedIn_Organizer');
+        localStorage.removeItem('OrganizerAccessToken');
         this.$router.push('/');
       }
     },
   
     mounted() {
-      this.getuserById(getUserId());
+      this.isLogin = getIsLoggedInOrganizer();
+      if (this.isLogin) {
+        this.getOrganizerById();
+      }
     }
   }
   </script>
